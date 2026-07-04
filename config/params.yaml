@@ -1,0 +1,348 @@
+corridor_navigator:
+  ros__parameters:
+    # speeds
+    fast_speed:             0.23
+    slow_speed:             0.075
+    turn_speed:             0.55
+    turn_linear_speed:      0.020
+    reverse_speed:          0.05
+    max_angular_speed:      1.10
+    smoothing_alpha:        0.45
+
+    medium_speed:           0.16
+    side_min_dist:          0.23
+    emergency_stop_dist:    0.18
+    exit_side_threshold:    0.95
+    kp_gap:                 1.55
+    kp_diag:                0.75
+    kp_side_repulse:        1.90
+    angular_deadband:       0.025
+    recovery_reverse_speed: 0.045
+    recovery_turn_speed:    0.42
+    # centering thresholds
+    min_front_fast:         1.20
+    front_stop_dist:        0.28
+    front_curve_dist:       0.62
+    front_slow_dist:        0.80
+    clear_dist:             0.55
+    emergency_stop_dist:    0.22
+    kp_center:              1.00
+    # single-wall following
+    wall_detect_max:        0.95
+    desired_wall_dist:      0.34
+    kp_single_wall:         0.8
+    single_wall_max_ang:    0.25
+    # entry detection
+    enter_count_needed:     5
+    # anti-stuck (CENTERING only)
+    stuck_time:             3.0
+    stuck_dist:             0.018
+    # turn handling: finish corners using odometry/yaw
+    turn_min_time:          0.55
+    turn_target_angle:      1.25
+    max_turn_time:          2.4
+    # exit detection
+    exit_front_threshold:   1.10
+    exit_confirm_frames:    4
+    # EXIT_APPROACH (direct publish, no smoothing)
+    exit_speed:             0.18
+    exit_max_angular:       0.12
+    exit_kp_yaw:            0.4
+    yellow_align_kp:         1.15
+    yellow_align_max_ang:    0.38
+    yellow_approach_speed:   0.13
+    yellow_capture_area:     8000
+    yellow_capture_cy:       0.66
+    yellow_capture_width:    0.22
+    exit_timeout:           60.0
+    # yellow two-level detection
+    target_h_low:           18
+    target_h_high:          38
+    target_s_low:           80
+    target_v_low:           80
+    target_roi_start:       0.40
+    yellow_far_area:        1500
+    yellow_close_area:      12000
+    yellow_close_cy:        0.70
+    yellow_close_width:     0.35
+    yellow_confirm:         6
+    # stable: front camera correction.
+    # The colour sequence starts a measured odometry push; it does not stop immediately.
+    final_offset_time:      5.0
+    final_offset_speed:     0.060
+    final_center_extra_dist: 0.115
+    target_near_roi_start:  0.72
+    target_near_center_width: 0.32
+    target_ring_min_ratio:  0.030
+    target_yellow_near_ratio: 0.110
+    target_red_after_yellow_ratio: 0.045
+    target_ring_confirm:    4
+    # watchdog
+    watchdog_time:          2.0
+    # Challenge 2 integrated in main_node: green line follower after Challenge 1
+    ch2_pause_after_ch1: 0.45
+    ch2_bootstrap_distance: 0.34
+    ch2_bootstrap_speed: 0.075
+    ch2_bootstrap_green_area: 180
+    ch2_bootstrap_timeout: 5.0
+    ch2_linear_speed: 0.15
+    ch2_min_linear_speed: 0.055
+    ch2_angular_gain: 0.0052
+    ch2_max_angular_speed: 0.75
+    ch2_search_angular_speed: 0.52
+    ch2_roi_fraction: 0.88
+    ch2_min_line_area: 250
+    ch2_line_h_low: 35
+    ch2_line_h_high: 92
+    ch2_line_s_low: 35
+    ch2_line_v_low: 30
+    ch2_line_lost_frames_max: 80
+    ch2_line_error_alpha: 0.40
+    ch2_target_min_travel: 0.60
+    ch2_target_min_green_frames: 8
+    ch2_target_h_low: 18
+    ch2_target_h_high: 38
+    ch2_target_s_low: 80
+    ch2_target_v_low: 80
+    ch2_target_roi_start: 0.40
+    ch2_target_close_area: 10500
+    ch2_target_close_cy: 0.66
+    ch2_target_close_width: 0.26
+    ch2_target_confirm: 5
+    ch2_target_near_roi_start: 0.72
+    ch2_target_near_center_width: 0.34
+    ch2_target_ring_min_ratio: 0.030
+    ch2_target_yellow_near_ratio: 0.100
+    ch2_target_red_after_yellow_ratio: 0.040
+    ch2_target_ring_confirm: 4
+    ch2_final_center_extra_dist: 0.115
+    ch2_final_offset_speed: 0.060
+    ch2_final_offset_time: 6.0
+    ch2_target_align_kp: 0.95
+    ch2_target_align_max_ang: 0.22
+
+    # stable: faster green-line reacquisition; stricter ball trigger to avoid false CH3 starts.
+    # stable: Challenge 2 finishes as soon as the green ball appears in the camera.
+    # The actual line-following gains remain unchanged.
+    ch2_ball_trigger_enabled: false
+    ch2_ball_min_travel: 1.05
+    ch2_ball_confirm: 5
+    ch2_ball_min_area: 1200.0
+    ch2_ball_min_cy: 0.10
+    ch2_ball_max_cy: 0.74
+    ch2_ball_max_distance: 0.95
+    ch2_ball_reject_central_huge_area: 8000.0
+    ch2_ball_reject_central_width: 0.20
+    ch2_ball_min_compact: 0.30
+    ch2_ball_min_circularity: 0.18
+    ch2_ball_aspect_low: 0.55
+    ch2_ball_aspect_high: 1.90
+
+    # Ball pose reference mode: do not quit the line from camera alone. Use the exact
+    # random Ball2 position written by challenge_project/model2.sdf and start
+    # CH3 only when odometry says the robot is near the ball.
+    ch2_sdf_ball_trigger_enabled: true
+    ch2_sdf_ball_trigger_min_travel: 1.20
+    ch2_sdf_ball_trigger_distance: 0.90
+    ch2_sdf_ball_trigger_max_bearing_deg: 130.0
+
+    # stable: Challenge 3 parameters. Can start either after target 2 or early when ball appears.
+    # Challenge 1/2 above are stable-restored.
+    ch3_pause_after_ch2: 0.35
+    ch3_ball_min_area: 80
+    ch3_ball_confirm: 2
+    ch3_camera_fov_deg: 62.0
+    ch3_lidar_min_range: 0.12
+    ch3_lidar_max_range: 2.60
+    ch3_ball_radius: 0.055
+    ch3_search_angular_speed: 0.24
+    ch3_align_kp: 1.35
+    ch3_align_max_ang: 0.42
+    ch3_side_offset: 0.62
+    ch3_behind_distance: 0.48
+    ch3_waypoint_tolerance: 0.085
+    ch3_waypoint_speed: 0.115
+    ch3_waypoint_turn_kp: 1.80
+    ch3_waypoint_max_ang: 0.56
+    ch3_obstacle_stop_dist: 0.135
+    ch3_push_speed: 0.105
+    ch3_push_yaw_kp: 1.10
+    ch3_push_max_ang: 0.22
+    ch3_push_beyond_target: 0.55
+    ch3_push_distance_without_target: 1.25
+    ch3_push_timeout: 20.0
+    ch3_ball_diameter: 0.10
+    ch3_camera_width_px: 640.0
+    ch3_ball_distance_min: 0.22
+    ch3_ball_distance_max: 1.45
+    ch3_push_ball_align_kp: 0.62
+    ch3_face_ball_before_push: true
+    ch3_search_reverse_after: 8.0
+    ch3_ball_h_low: 25
+    ch3_ball_h_high: 98
+    ch3_ball_s_low: 30
+    ch3_ball_v_low: 25
+    ch3_use_fixed_target2: false
+    ch3_target2_world_x: -6.75
+    ch3_target2_world_y: 0.0
+    ch3_early_target_ahead_distance: 0.85
+    ch3_use_sdf_ball_pose: true
+    ch3_ball_sdf_path: ''
+    ch3_robot_spawn_world_x: 1.7
+    ch3_robot_spawn_world_y: -0.05
+    ch3_robot_spawn_world_yaw: 3.14
+    ch3_transform_world_to_odom: true
+
+line_follower:
+  ros__parameters:
+    # In main.launch this must be true so challenge 2 cannot fight challenge 1 on /cmd_vel.
+    # challenge2.launch.py overrides it to false for standalone tests.
+    wait_for_challenge1: true
+    bootstrap_distance: 0.32
+    bootstrap_speed: 0.075
+    bootstrap_green_area: 180
+    bootstrap_timeout: 5.0
+    # Challenge 2: green line follower + stop on second target centre
+    linear_speed:       0.15
+    min_linear_speed:   0.055
+    angular_gain:       0.0052
+    max_angular_speed:  0.75
+    search_angular_speed: 0.22
+    roi_fraction:       0.88
+    min_line_area:      250
+    obstacle_dist:      0.25
+    obstacle_angle_deg: 18
+    line_h_low:         35
+    line_h_high:        88
+    line_s_low:         35
+    line_v_low:         30
+    line_lost_frames_max: 80
+    line_error_alpha:   0.40
+
+    # Do not re-detect the first target immediately after challenge 1
+    target_min_travel:  0.55
+    target_min_green_frames: 10
+
+    # Second target yellow disk/ring detection
+    target_h_low:       18
+    target_h_high:      38
+    target_s_low:       80
+    target_v_low:       80
+    target_roi_start:   0.40
+    target_close_area:  10500
+    target_close_cy:    0.66
+    target_close_width: 0.26
+    target_confirm:     5
+    target_near_roi_start: 0.72
+    target_near_center_width: 0.34
+    target_ring_min_ratio: 0.030
+    target_yellow_near_ratio: 0.100
+    target_red_after_yellow_ratio: 0.040
+    target_ring_confirm: 4
+    final_center_extra_dist: 0.115
+    final_offset_speed: 0.060
+    final_offset_time:  6.0
+    target_align_kp:    0.95
+    target_align_max_ang: 0.22
+
+ball_pusher:
+  ros__parameters:
+    search_angular_speed: 0.40
+    linear_speed:         0.18
+    push_speed:           0.12
+    angular_gain:         0.005
+    min_ball_area:        300
+    push_area_threshold:  12000
+    done_area_threshold:  70000
+    align_threshold_px:   30
+    ball_h_low:   18
+    ball_h_high:  35
+    ball_s_low:   100
+    ball_v_low:   100
+
+full_run_controller:
+  ros__parameters:
+    # corridor speeds
+    corridor_fast_speed:        0.28
+    corridor_slow_speed:        0.08
+    corridor_turn_lin:          0.020
+    corridor_turn_speed:        0.55
+    corridor_turn_min_time:     0.55
+    corridor_turn_target_angle: 1.25
+    corridor_turn_max_time:     2.4
+    corridor_reverse_speed:     0.05
+    corridor_max_angular:       1.4
+    corridor_alpha:             0.35
+    # corridor centering
+    corridor_min_front_fast:    1.20
+    corridor_front_stop:        0.35
+    corridor_turn_detect:       0.68
+    corridor_slow_dist:         0.85
+    corridor_clear_dist:        0.55
+    corridor_kp:                1.8
+    corridor_enter_thresh:      1.50
+    corridor_enter_count:       5
+    # corridor anti-stuck
+    corridor_stuck_time:         2.5
+    corridor_stuck_dist:         0.02
+    # corridor single-wall following
+    corridor_wall_detect_max:    0.85
+    corridor_wall_desired:       0.35
+    corridor_kp_single_wall:     0.8
+    corridor_single_wall_max:    0.25
+    # corridor exit → EXIT_APPROACH
+    corridor_exit_trigger_front: 0.90
+    corridor_exit_frames:        4
+    corridor_exit_speed:         0.16
+    corridor_exit_max_ang:       0.15
+    corridor_exit_kp_yaw:        0.5
+    corridor_yellow_align_kp:     1.15
+    corridor_yellow_align_max:    0.38
+    corridor_yellow_approach:     0.13
+    corridor_exit_timeout:       15.0
+    corridor_exit_emerg:         0.20
+    # corridor yellow target
+    corridor_tgt_h_low:          18
+    corridor_tgt_h_high:         38
+    corridor_tgt_s_low:          80
+    corridor_tgt_v_low:          80
+    corridor_tgt_roi:            0.40
+    corridor_tgt_far_area:       1500
+    corridor_tgt_area:           12000
+    corridor_tgt_cy:             0.70
+    corridor_tgt_width:          0.35
+    corridor_tgt_confirm:        6
+    # stable: front camera correction; colour sequence starts odometry push, not stop.
+    corridor_final_offset_time:   5.0
+    corridor_final_offset_speed:  0.060
+    corridor_final_center_extra_dist: 0.115
+    corridor_target_near_roi_start: 0.72
+    corridor_target_near_center_width: 0.32
+    corridor_target_ring_min_ratio: 0.030
+    corridor_target_yellow_near_ratio: 0.110
+    corridor_target_red_after_yellow_ratio: 0.045
+    corridor_target_ring_confirm: 4
+    # line follow
+    line_linear_speed:          0.18
+    line_angular_gain:          0.004
+    line_roi_fraction:          0.50
+    line_min_area:              500
+    obstacle_dist:              0.40
+    obstacle_angle_deg:         25
+    line_h_low:   40
+    line_h_high:  80
+    line_s_low:   50
+    line_v_low:   50
+    line_lost_frames_max:       60
+    # ball push
+    ball_linear_speed:          0.18
+    ball_push_speed:            0.12
+    ball_angular_gain:          0.005
+    ball_min_area:              300
+    ball_push_area:             12000
+    ball_done_area:             70000
+    ball_h_low:   18
+    ball_h_high:  35
+    ball_s_low:   100
+    ball_v_low:   100
+    ball_search_angular:        0.40
