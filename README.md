@@ -10,11 +10,11 @@ Three progressively harder autonomous navigation challenges for a **TurtleBot3 B
 **The full pipeline runs end-to-end successfully**: corridor exit → line following → target lock → ball search → alignment → push, all in one uninterrupted mission, using only LiDAR and a single onboard camera.
 
 <p align="center">
-  <a href="https://youtube.com/shorts/1dUWR7mg9io?feature=share">
-    <img src="https://img.youtube.com/vi/1dUWR7mg9io/maxresdefault.jpg" alt="TurtleBot3 locating and pushing the ball to the target — watch on YouTube" width="500">
+  <a href="https://youtube.com/shorts/X09uviqkwvI?feature=share">
+    <img src="https://img.youtube.com/vi/X09uviqkwvI/maxresdefault.jpg" alt="TurtleBot3 locating and pushing the ball to the target — watch on YouTube" width="500">
   </a>
   <br>
-  <em>▶️ <a href="https://youtube.com/shorts/1dUWR7mg9io?feature=share">Watch Challenge 3 on YouTube</a> — the robot locates a randomly-placed ball and pushes it to the target.</em>
+  <em>▶️ <a href="https://youtube.com/shorts/X09uviqkwvI?feature=share">Watch Challenge 3 on YouTube</a> — the robot locates a randomly-placed ball and pushes it to the target.</em>
 </p>
 
 ## The three challenges
