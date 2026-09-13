@@ -187,6 +187,7 @@ corridor_navigator:
     ch3_target2_world_y: 0.0
     ch3_early_target_ahead_distance: 0.85
     ch3_use_sdf_ball_pose: true
+    # Optional. Set this explicitly or export CHALLENGE_PROJECT_ROOT before launch.
     ch3_ball_sdf_path: ''
     ch3_robot_spawn_world_x: 1.7
     ch3_robot_spawn_world_y: -0.05
