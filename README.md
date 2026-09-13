@@ -131,7 +131,7 @@ config/params.yaml        All tunable parameters for every node, namespaced by n
 
 This package depends on an external ROS 2 package named `challenge_project` (declared in `package.xml`), which provides the Gazebo world, the TurtleBot3 Burger spawn logic, and the ball model (`model2.sdf`) referenced by the SDF-pose shortcut in Challenge 3. That package is course-provided infrastructure (ENSAM) and is **not included** in this repository — only the navigation logic developed for the challenges is included here.
 
-The public defaults now keep the optional SDF handoff and fixed second-target shortcut disabled, matching `config/params.yaml`. If you explicitly want the course-provided SDF handoff, set `CHALLENGE_PROJECT_ROOT` to the local `challenge_project` directory or provide `ch3_ball_sdf_path`; otherwise the controller logs a clear warning and keeps the sensor-only fallback.
+The public defaults keep the optional SDF handoff and fixed second-target shortcut disabled, matching `config/params.yaml`. To explicitly enable the course-provided SDF handoff, set both `ch2_sdf_ball_trigger_enabled` and `ch3_use_sdf_ball_pose` to `true`, then set `CHALLENGE_PROJECT_ROOT` to the local `challenge_project` directory or provide `ch3_ball_sdf_path`; otherwise the controller remains sensor-only.
 
 ## How to run
 
