@@ -141,7 +141,7 @@ corridor_navigator:
     # Ball pose reference mode: do not quit the line from camera alone. Use the exact
     # random Ball2 position written by challenge_project/model2.sdf and start
     # CH3 only when odometry says the robot is near the ball.
-    ch2_sdf_ball_trigger_enabled: true
+    ch2_sdf_ball_trigger_enabled: false
     ch2_sdf_ball_trigger_min_travel: 1.20
     ch2_sdf_ball_trigger_distance: 0.90
     ch2_sdf_ball_trigger_max_bearing_deg: 130.0
@@ -186,7 +186,7 @@ corridor_navigator:
     ch3_target2_world_x: -6.75
     ch3_target2_world_y: 0.0
     ch3_early_target_ahead_distance: 0.85
-    ch3_use_sdf_ball_pose: true
+    ch3_use_sdf_ball_pose: false
     # Optional. Set this explicitly or export CHALLENGE_PROJECT_ROOT before launch.
     ch3_ball_sdf_path: ''
     ch3_robot_spawn_world_x: 1.7
