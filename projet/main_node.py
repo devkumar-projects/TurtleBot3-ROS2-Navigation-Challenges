@@ -88,7 +88,7 @@ class MainController(CorridorNavigator):
         # stable: during Challenge 2, keep following the line but watch for the ball.
         # When the compact ball appears, immediately abandon the green line and
         # start Challenge 3.  This does NOT change the line-following controller.
-        self.declare_parameter('ch2_ball_trigger_enabled', True)
+        self.declare_parameter('ch2_ball_trigger_enabled', False)
         self.declare_parameter('ch2_ball_min_travel', 1.05)
         self.declare_parameter('ch2_ball_confirm', 5)
         self.declare_parameter('ch2_ball_min_area', 1200.0)
@@ -148,7 +148,7 @@ class MainController(CorridorNavigator):
         self.declare_parameter('ch3_ball_v_low', 25)
         # Fixed second target centre from challenge_project Ball2 random area / target layout.
         # Odom is world-frame aligned in this Gazebo setup.
-        self.declare_parameter('ch3_use_fixed_target2', True)
+        self.declare_parameter('ch3_use_fixed_target2', False)
         self.declare_parameter('ch3_target2_world_x', -6.75)
         self.declare_parameter('ch3_target2_world_y', 0.0)
         self.declare_parameter('ch3_early_target_ahead_distance', 0.85)
@@ -260,7 +260,18 @@ class MainController(CorridorNavigator):
         self.ch3_early_target_ahead_dist = float(self.get_parameter('ch3_early_target_ahead_distance').value)
         self.ch3_use_sdf_ball_pose = bool(self.get_parameter('ch3_use_sdf_ball_pose').value)
         sdf_path = str(self.get_parameter('ch3_ball_sdf_path').value or '').strip()
-        self.ch3_ball_sdf_path = os.path.expanduser(sdf_path) if sdf_path else os.path.expanduser('~/ros2_ws/src/challenge_project/models/Ball2/model2.sdf')
+        if not sdf_path:
+            challenge_root = os.environ.get('CHALLENGE_PROJECT_ROOT', '').strip()
+            if challenge_root:
+                sdf_path = os.path.join(
+                    challenge_root, 'models', 'Ball2', 'model2.sdf'
+                )
+        self.ch3_ball_sdf_path = os.path.expanduser(sdf_path) if sdf_path else ''
+        if self.ch3_use_sdf_ball_pose and not self.ch3_ball_sdf_path:
+            self.get_logger().warn(
+                'CHALLENGE_PROJECT_ROOT or ch3_ball_sdf_path is required '
+                'for SDF ball-pose handoff; sensor-only fallback remains active'
+            )
         self.ch3_spawn_world_x = float(self.get_parameter('ch3_robot_spawn_world_x').value)
         self.ch3_spawn_world_y = float(self.get_parameter('ch3_robot_spawn_world_y').value)
         self.ch3_spawn_world_yaw = float(self.get_parameter('ch3_robot_spawn_world_yaw').value)
@@ -370,6 +381,13 @@ class MainController(CorridorNavigator):
             return True
         self.ch3_sdf_last_read = now
         path = self.ch3_ball_sdf_path
+        if not path:
+            if now - self.ch3_sdf_last_log > 3.0:
+                self.ch3_sdf_last_log = now
+                self.get_logger().warn(
+                    '[BALL_POSE] SDF path is not configured; using sensor-only fallback'
+                )
+            return False
         try:
             tree = ET.parse(path)
             root = tree.getroot()
