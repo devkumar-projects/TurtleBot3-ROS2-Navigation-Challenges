@@ -104,7 +104,7 @@ class MainController(CorridorNavigator):
 
         # Ball pose reference mode: read Ball2 random pose written by challenge_project.
         # This avoids leaving the line too early from a far camera blob.
-        self.declare_parameter('ch2_sdf_ball_trigger_enabled', True)
+        self.declare_parameter('ch2_sdf_ball_trigger_enabled', False)
         self.declare_parameter('ch2_sdf_ball_trigger_min_travel', 1.20)
         self.declare_parameter('ch2_sdf_ball_trigger_distance', 0.90)
         self.declare_parameter('ch2_sdf_ball_trigger_max_bearing_deg', 130.0)
@@ -152,7 +152,7 @@ class MainController(CorridorNavigator):
         self.declare_parameter('ch3_target2_world_x', -6.75)
         self.declare_parameter('ch3_target2_world_y', 0.0)
         self.declare_parameter('ch3_early_target_ahead_distance', 0.85)
-        self.declare_parameter('ch3_use_sdf_ball_pose', True)
+        self.declare_parameter('ch3_use_sdf_ball_pose', False)
         self.declare_parameter('ch3_ball_sdf_path', '')
         self.declare_parameter('ch3_robot_spawn_world_x', 1.7)
         self.declare_parameter('ch3_robot_spawn_world_y', -0.05)
